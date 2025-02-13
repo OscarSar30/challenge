@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: test-sp-customer
+  r2dbc:
+    password: 123
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    driverClassName: org.postgresql.Driver
+    initialization-mode: always
+
+server:
+  port: 8093
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+        r2dbc: DEBUG
+

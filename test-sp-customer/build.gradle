@@ -1,0 +1,111 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.2'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.openapi.generator' version '7.5.0'
+}
+
+group = 'com.test.sp.customer'
+version = '1.0.0sp-'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Dependencias de Spring y R2DBC
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+	// Validación de Bean
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+	implementation 'org.glassfish:javax.el:3.0.0'
+
+	// Swagger/OpenAPI
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.28'
+
+	// MapStruct y Lombok
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	compileOnly 'org.projectlombok:lombok:1.18.36'
+	compileOnly 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+	// Dependencia para PostgreSQL
+	implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+
+	// Dependencias de prueba
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+}
+
+// Generate server
+tasks.register('buildSpringServer', GenerateTask) {
+	generatorName = 'spring'
+	inputSpec = "${rootDir}/src/main/resources/openapi.yaml"
+	outputDir = "${buildDir}/generated"
+	apiPackage = "com.test.sp.customer.api"
+	modelPackage = "com.test.sp.customer.model"
+	library = 'spring-boot'
+	configOptions.putAll([
+			skipDefaultInterface                    : 'false',
+			useSpringBoot3                          : 'true',
+			useJakartaEe                            : 'true',
+			serializableModel                       : 'true',
+			dateLibrary                             : 'java8',
+			openApiNullable                         : 'false',
+			reactive                                : 'true',
+			apiFirst                                : 'false',
+			delegatePattern                         : 'true',
+			disallowAdditionalPropertiesIfNotPresent: 'true',
+			interfaceOnly                           : 'true',
+			sourceFolder                            : 'src/main/java',
+			basePackage                             : 'com.test',
+			configPackage                           : "com.test.sp.customer.config"
+	])
+}
+
+compileJava {
+	dependsOn buildSpringServer
+	options.compilerArgs += [
+			'-Amapstruct.suppressGeneratorTimestamp=true',
+			'-Amapstruct.suppressGeneratorVersionInfoComment=true',
+			'-Amapstruct.verbose=true',
+			'-Amapstruct.defaultComponentModel=spring'
+	]
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', "${buildDir}/generated/src/main/java"]
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorPath = configurations.annotationProcessor
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

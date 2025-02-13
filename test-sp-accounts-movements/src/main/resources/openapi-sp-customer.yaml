@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: API Customer.
+  description: Service for the client-person entity.
+  contact:
+    email: oscar.sarcoss@outlook.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /customers:
+    get:
+      tags:
+        - Customer
+      summary: Consult list of active customers
+      description: Consult list of active customers.
+      operationId: GetCustomers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetCustomersResponse'
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    post:
+      tags:
+        - Customer
+      summary: Create new customer
+      description: Create new customer.
+      operationId: PostCustomer
+      requestBody:
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PostCustomerRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/PostCustomerResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /customers/{customerId}:
+    delete:
+      tags:
+        - Customer
+      summary: Delete customer by ID
+      description: Delete customer by ID.
+      operationId: DeleteCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    put:
+      tags:
+        - Customer
+      summary: Update customer by ID
+      description: Update customer by ID.
+      operationId: PutCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Cliente
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PutCustomerByIdRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+components:
+  schemas:
+    PostCustomerRequest:
+      required:
+        - contrasenia
+        - identification
+        - fullName
+        - status
+      type: object
+      properties:
+        identification:
+          maxLength: 13
+          minLength: 10
+          pattern: "^[0-9]{10,13}$"
+          type: string
+        fullName:
+          maxLength: 255
+          pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+          type: string
+        gender:
+          type: string
+        age:
+          type: integer
+          format: int32
+        address:
+          maxLength: 255
+          pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 _.,-]+$"
+          type: string
+        phone:
+          maxLength: 20
+          pattern: "^\\+?[0-9]+$"
+          type: string
+        password:
+          minLength: 8
+          maxLength: 16
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\\$%\\^&\\*()_\\+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,16}$"
+          type: string
+        status:
+          type: boolean
+    PostCustomerResponse:
+      properties:
+        customerId:
+          type: integer
+          format: int32
+    PutCustomerByIdRequest:
+      type: object
+      properties:
+        identification:
+          maxLength: 13
+          minLength: 10
+          pattern: "^[0-9]{10,13}$"
+          type: string
+        fullName:
+          maxLength: 255
+          pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+          type: string
+        gender:
+          type: string
+        age:
+          type: integer
+          format: int32
+        address:
+          maxLength: 255
+          pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 _.,-]+$"
+          type: string
+        phone:
+          maxLength: 20
+          pattern: "^\\+?[0-9]+$"
+          type: string
+        password:
+          minLength: 8
+          maxLength: 16
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\\$%\\^&\\*()_\\+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,16}$"
+          type: string
+        status:
+          type: boolean
+    GetCustomersResponse:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int32
+        identification:
+          type: string
+        fullName:
+          type: string
+        gender:
+          type: string
+        age:
+          type: integer
+          format: int32
+        address:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        status:
+          type: boolean
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
