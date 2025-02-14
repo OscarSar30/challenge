@@ -10,7 +10,7 @@ import com.test.sp.customer.repository.CustomerRepository;
 import com.test.sp.customer.repository.PersonRepository;
 import com.test.sp.customer.service.CustomerService;
 import com.test.sp.customer.service.mapper.CustomerMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final PersonRepository personRepository;
@@ -97,6 +97,21 @@ public class CustomerServiceImpl implements CustomerService {
                     return Mono.error(new CustomerExceptionNotFound());
                 }))
                 .then();
+    }
+
+    @Override
+    public Mono<GetCustomersResponse> getCustomerById(Integer customerId) {
+        log.info("|-> Starts process of searching customer by ID {}", customerId);
+        return customerRepository.findById(customerId)
+                .flatMap(customer -> {
+                    log.info("|-> Customer exists in the system.");
+                    return personRepository.findById(customer.getPersonId())
+                            .map(person -> customerMapper.getCustomerAll(person, customer));
+                })
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Customer not found with ID {}",customerId);
+                    return Mono.error(new CustomerExceptionNotFound());
+                }));
     }
 
 }

@@ -150,11 +150,49 @@ paths:
             application/json; charset=UTF-8:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+    get:
+      tags:
+        - Customer
+      summary: Search customer by ID
+      description: Search customer by ID.
+      operationId: GetCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/GetCustomersResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 components:
   schemas:
     PostCustomerRequest:
       required:
-        - contrasenia
+        - password
         - identification
         - fullName
         - status

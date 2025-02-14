@@ -1,8 +1,6 @@
 package com.test.sp.customer.repository;
 
 import com.test.sp.customer.domain.Customer;
-import com.test.sp.customer.domain.Person;
-import org.reactivestreams.Publisher;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;

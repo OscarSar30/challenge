@@ -17,4 +17,6 @@ public interface CustomerService {
     Mono<Flux<GetCustomersResponse>> getCustomers();
 
     Mono<Void> deleteCustomer(Integer customerId);
+
+    Mono<GetCustomersResponse> getCustomerById(Integer customerId);
 }

@@ -1,6 +1,6 @@
 package com.test.sp.customer.controller;
 
-import com.test.sp.customer.api.CustomerApi;
+import com.test.sp.customer.api.CustomersApi;
 import com.test.sp.customer.model.GetCustomersResponse;
 import com.test.sp.customer.model.PostCustomerRequest;
 import com.test.sp.customer.model.PostCustomerResponse;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 @Slf4j
 @Validated
-public class CustomerControllerImpl implements CustomerApi {
+public class CustomerControllerImpl implements CustomersApi {
 
     private final CustomerService customerService;
 
@@ -60,5 +60,13 @@ public class CustomerControllerImpl implements CustomerApi {
         log.info("|-> Initiates the call to the customer delete method.");
         return customerService.deleteCustomer(customerId)
                 .map(s -> new ResponseEntity<>(HttpStatus.OK));
+    }
+
+    @Override
+    public Mono<ResponseEntity<GetCustomersResponse>> getCustomerById(Integer customerId,
+                                                                      ServerWebExchange exchange) {
+        log.info("|-> Initiates the call to the customer search method.");
+        return customerService.getCustomerById(customerId)
+                .map(getCustomersResponse -> new ResponseEntity<>(getCustomersResponse, HttpStatus.OK));
     }
 }

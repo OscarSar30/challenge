@@ -1,0 +1,417 @@
+openapi: 3.0.0
+info:
+  title: API Accounts - Movements.
+  description: Service for the accounts and movements entity.
+  contact:
+    email: oscar.sarcoss@outlook.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: Consult list of accounts
+      description: Consult list of accounts.
+      operationId: GetAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAccountsResponse'
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    post:
+      tags:
+        - Accounts
+      summary: Create new account
+      description: Create new account.
+      operationId: PostAccount
+      requestBody:
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PostAccountRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/PostAccountResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /accounts/{accountId}:
+    delete:
+      tags:
+        - Accounts
+      summary: Delete account by ID
+      description: Delete account by ID.
+      operationId: DeleteAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    put:
+      tags:
+        - Accounts
+      summary: Update account by ID
+      description: Update account by ID.
+      operationId: PutAccountById
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Cliente
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PutAccountByIdRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /movements:
+    get:
+      tags:
+        - Movements
+      summary: Consult list of movements
+      description: Consult list of movements.
+      operationId: GetMovements
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetMovementsResponse'
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    post:
+      tags:
+        - Movements
+      summary: Create new movement
+      description: Create new movement.
+      operationId: PostMovement
+      requestBody:
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PostMovementRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/PostMovementResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  /movements/{movementId}:
+    delete:
+      tags:
+        - Movements
+      summary: Delete movement by ID
+      description: Delete movement by ID.
+      operationId: DeleteMovement
+      parameters:
+        - name: movementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    put:
+      tags:
+        - Movements
+      summary: Update movement by ID
+      description: Update movement by ID.
+      operationId: PutMovementById
+      parameters:
+        - name: movementId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Cliente
+        content:
+          application/json; charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/PutMovementByIdRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+components:
+  schemas:
+    PostAccountRequest:
+      required:
+        - accountNumber
+        - initialBalance
+        - status
+        - customerId
+      type: object
+      properties:
+        accountNumber:
+          maxLength: 20
+          minLength: 10
+          pattern: "^[0-9]{10,20}$"
+          type: string
+        accountType:
+          type: string
+        initialBalance:
+          type: number
+          format: double
+        status:
+          type: string
+        customerId:
+          type: integer
+          format: int32
+    PostAccountResponse:
+      properties:
+        accountId:
+          type: integer
+          format: int32
+    PutAccountByIdRequest:
+      required:
+        - accountNumber
+        - initialBalance
+        - status
+        - customerId
+      type: object
+      properties:
+        accountNumber:
+          maxLength: 20
+          minLength: 10
+          pattern: "^[0-9]{10,20}$"
+          type: string
+        accountType:
+          type: string
+        initialBalance:
+          type: number
+          format: double
+        status:
+          type: string
+    PostMovementRequest:
+      required:
+        - dateMovement
+        - movementType
+        - accountId
+      type: object
+      properties:
+        dateMovement:
+          type: string
+          format: date
+        movementType:
+          type: string
+        amount:
+          type: number
+          format: double
+        balance:
+          type: number
+          format: double
+        accountId:
+          type: integer
+          format: int32
+    PostMovementResponse:
+      properties:
+        movementId:
+          type: integer
+          format: int32
+    PutMovementByIdRequest:
+      type: object
+      properties:
+        dateMovement:
+          type: string
+          format: date
+        movementType:
+          type: string
+        amount:
+          type: number
+          format: double
+        balance:
+          type: number
+          format: double
+    GetAccountsResponse:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+        initialBalance:
+          type: string
+        status:
+          type: boolean
+        fullName:
+          type: string
+    GetMovementsResponse:
+      type: object
+      properties:
+        dateMovement:
+          type: string
+          format: date
+        movementType:
+          type: string
+        amount:
+          type: number
+          format: double
+        balance:
+          type: number
+          format: double
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string

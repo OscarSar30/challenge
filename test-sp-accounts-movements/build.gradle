@@ -50,6 +50,13 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// Jakarta EE dependencies
+	implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0' // or compatible version
+
+	// Swagger/OpenAPI
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.28' // Ensure this matches your version
+	implementation 'io.swagger.core.v3:swagger-models:2.2.28' // Needed for OpenAPI models
+
 }
 
 // Generate server
@@ -78,8 +85,24 @@ tasks.register('buildSpringServer', GenerateTask) {
 	])
 }
 
+tasks.register('buildClientSpCustomer', GenerateTask) {
+	generatorName = 'java'
+	inputSpec = "${rootDir}/src/main/resources/openapi-sp-customer.yaml"
+	outputDir = "${buildDir}/generated"
+	apiPackage = "com.test.sp.accounts.movements.api.customer"
+	modelPackage = "com.test.sp.accounts.movements.model.customer"
+	library = 'webclient'
+	configOptions.putAll([
+			useSpringBoot3                          : 'true',
+			useJakartaEe                            : 'true',
+			openApiNullable                         : 'false',
+			sourceFolder                            : 'src/main/java',
+			configPackage                           : "com.test.sp.accounts.movements.config"
+	])
+}
+
 compileJava {
-	dependsOn buildSpringServer
+	dependsOn buildSpringServer, buildClientSpCustomer
 	options.compilerArgs += [
 			'-Amapstruct.suppressGeneratorTimestamp=true',
 			'-Amapstruct.suppressGeneratorVersionInfoComment=true',

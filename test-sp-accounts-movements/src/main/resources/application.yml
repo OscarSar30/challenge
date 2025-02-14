@@ -19,3 +19,9 @@ logging:
           r2dbc: DEBUG
         r2dbc: DEBUG
 
+services:
+  client:
+    api:
+      client-customer:
+        url: http://localhost:8093
+
