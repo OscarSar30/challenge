@@ -5,13 +5,14 @@ import com.test.sp.accounts.movements.exception.CustomerExceptionNotFound;
 import com.test.sp.accounts.movements.model.customer.GetCustomersResponse;
 import com.test.sp.accounts.movements.service.CustomerService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerApi customerApi;

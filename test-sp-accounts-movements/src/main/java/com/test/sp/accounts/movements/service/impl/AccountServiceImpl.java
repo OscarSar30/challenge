@@ -1,7 +1,7 @@
 package com.test.sp.accounts.movements.service.impl;
 
 import com.test.sp.accounts.movements.domain.Account;
-import com.test.sp.accounts.movements.exception.AccountIdNotFound;
+import com.test.sp.accounts.movements.exception.AccountIdNotFoundException;
 import com.test.sp.accounts.movements.exception.AccountNumberException;
 import com.test.sp.accounts.movements.model.GetAccountsResponse;
 import com.test.sp.accounts.movements.model.PostAccountRequest;
@@ -61,14 +61,16 @@ public class AccountServiceImpl implements AccountService {
                                      PutAccountByIdRequest request) {
         log.info("|-> Starts process of updating account by ID {}", accountId);
         return accountRepository.findById(accountId)
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Movement not found with ID {}",accountId);
+                    return Mono.error(new AccountIdNotFoundException());
+                }))
                 .flatMap(account -> {
                     log.info("|-> Account exists in the system.");
                     return accountRepository.save(accountMapper.putRequestClientToAccount(request, account));
-                })
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Customer not found with ID {}",accountId);
-                    return Mono.error(new AccountIdNotFound());
-                }))
+                }).doOnError(throwable -> log.error(
+                        "|-> Error update account. Error detail {}", throwable.getMessage()
+                ))
                 .then();
     }
 
@@ -81,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
                                 .map(customer -> accountMapper.getAccountAll(account, customer)))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.error("|-> Accounts not found");
-                    return Mono.error(new AccountIdNotFound());
+                    return Mono.error(new AccountIdNotFoundException());
                 }))
                 .collectList()
                 .map(Flux::fromIterable);
@@ -91,15 +93,17 @@ public class AccountServiceImpl implements AccountService {
     public Mono<Void> deleteAccount(Integer accountId) {
         log.info("|-> Starts process of deleting account by ID {}", accountId);
         return accountRepository.findById(accountId)
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Account not found with ID {}", accountId);
+                    return Mono.error(new AccountIdNotFoundException());
+                }))
                 .flatMap(customer -> {
                     log.info("|-> Account exists in the system.");
                     return accountRepository.deleteById(accountId);
-                })
+                }).doOnError(throwable -> log.error(
+                        "|-> Error delete account. Error detail {}", throwable.getMessage()
+                ))
                 .doOnSuccess(v -> log.info("|-> Account was deleted."))
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Account not found with ID {}", accountId);
-                    return Mono.error(new AccountIdNotFound());
-                }))
                 .then();
     }
 }

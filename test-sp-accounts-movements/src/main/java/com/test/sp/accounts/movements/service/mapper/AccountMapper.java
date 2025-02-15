@@ -28,6 +28,7 @@ public interface AccountMapper {
 	Account putRequestClientToAccount(PutAccountByIdRequest request,
 									  Account account);
 
+	@Mapping(source = "account.accountId", target = "accountId")
 	@Mapping(source = "account.accountNumber", target = "accountNumber")
 	@Mapping(source = "account.accountType", target = "accountType")
 	@Mapping(source = "account.initialBalance", target = "initialBalance")

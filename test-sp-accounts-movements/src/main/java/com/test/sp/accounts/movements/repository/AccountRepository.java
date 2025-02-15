@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface AccountRepository extends ReactiveCrudRepository<Account, Integer> {
     Mono<Account> findByAccountNumber(String accountNumber);
+    Mono<Account> findByAccountId(Integer accountId);
 }

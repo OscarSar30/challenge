@@ -215,23 +215,41 @@ paths:
             application/json; charset=UTF-8:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-  /movements/{movementId}:
-    delete:
+  /statement-accounts:
+    get:
       tags:
-        - Movements
-      summary: Delete movement by ID
-      description: Delete movement by ID.
-      operationId: DeleteMovement
+        - Statement Account
+      summary: Consult statement account of customer by parameters
+      description: Consult statement account of customer by parameters.
+      operationId: GetStatementAccountByFilter
       parameters:
-        - name: movementId
-          in: path
+        - name: identification
+          in: query
+          description: Document number customer
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            maxLength: 13
+            minLength: 10
+            pattern: "^[0-9]{10,13}$"
+            example: 099999999999
+        - name: dateRange
+          in: query
+          description: Date range
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{2}/[0-9]{2}/[0-9]{4};[0-9]{2}/[0-9]{2}/[0-9]{4}$"
+            example: "01/01/2025;31/01/2025"
       responses:
         '200':
           description: OK
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetStatementAccountByFilterResponse'
         '204':
           description: No Content
           content:
@@ -240,47 +258,6 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-    put:
-      tags:
-        - Movements
-      summary: Update movement by ID
-      description: Update movement by ID.
-      operationId: PutMovementById
-      parameters:
-        - name: movementId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      requestBody:
-        description: Cliente
-        content:
-          application/json; charset=UTF-8:
-            schema:
-              $ref: '#/components/schemas/PutMovementByIdRequest'
-        required: true
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Bad Request
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
-        '404':
-          description: Not Found
           content:
             application/json; charset=UTF-8:
               schema:
@@ -367,23 +344,12 @@ components:
         movementId:
           type: integer
           format: int32
-    PutMovementByIdRequest:
-      type: object
-      properties:
-        dateMovement:
-          type: string
-          format: date
-        movementType:
-          type: string
-        amount:
-          type: number
-          format: double
-        balance:
-          type: number
-          format: double
     GetAccountsResponse:
       type: object
       properties:
+        accountId:
+          type: integer
+          format: int32
         accountNumber:
           type: string
         accountType:
@@ -400,12 +366,37 @@ components:
         dateMovement:
           type: string
           format: date
+        accountNumber:
+          type: string
         movementType:
           type: string
         amount:
           type: number
           format: double
         balance:
+          type: number
+          format: double
+    GetStatementAccountByFilterResponse:
+      type: object
+      properties:
+        dateMovement:
+          type: string
+          format: date
+        fullName:
+          type: string
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+        initialBalance:
+          type: number
+          format: double
+        status:
+          type: boolean
+        amountMovement:
+          type: number
+          format: double
+        availableBalance:
           type: number
           format: double
     ErrorDTO:

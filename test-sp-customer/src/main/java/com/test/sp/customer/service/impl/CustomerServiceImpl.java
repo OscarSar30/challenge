@@ -46,7 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
                                     return postCustomerResponse;
                                 });
                     }
-                });
+                }).doOnError(throwable -> log.error(
+                        "|-> Error create new customer. Error detail {}", throwable.getMessage()
+                ));
     }
 
     @Override
@@ -54,16 +56,18 @@ public class CustomerServiceImpl implements CustomerService {
                                   PutCustomerByIdRequest request) {
         log.info("|-> Starts process of updating customer by ID {}", customerId);
         return customerRepository.findById(customerId)
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Customer not found with ID {}",customerId);
+                    return Mono.error(new CustomerExceptionNotFound());
+                }))
                 .flatMap(customer -> {
                     log.info("|-> Customer exists in the system.");
                     return customerRepository.save(customerMapper.putRequestClientToCustomerEntity(request, customer))
                             .flatMap(entity ->
                                     personRepository.save(customerMapper.putRequestClientToPersonEntity(request, entity)));
-                })
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Customer not found with ID {}",customerId);
-                    return Mono.error(new CustomerExceptionNotFound());
-                }))
+                }).doOnError(throwable -> log.error(
+                        "|-> Error update customer. Error detail {}", throwable.getMessage()
+                ))
                 .then();
     }
 
@@ -86,16 +90,18 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<Void> deleteCustomer(Integer customerId) {
         log.info("|-> Starts process of deleting customer by ID {}", customerId);
         return customerRepository.findById(customerId)
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Customer not found with ID {}", customerId);
+                    return Mono.error(new CustomerExceptionNotFound());
+                }))
                 .flatMap(customer -> {
                     log.info("|-> Customer exists in the system.");
                     return customerRepository.deleteById(customerId)
                             .then(personRepository.deleteById(customer.getPersonId()));
                 })
+                .doOnError(throwable -> log.error(
+                        "|-> Error delete customer. Error detail {}", throwable.getMessage()))
                 .doOnSuccess(v -> log.info("|-> Customer was deleted."))
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Customer not found with ID {}", customerId);
-                    return Mono.error(new CustomerExceptionNotFound());
-                }))
                 .then();
     }
 
@@ -103,15 +109,16 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<GetCustomersResponse> getCustomerById(Integer customerId) {
         log.info("|-> Starts process of searching customer by ID {}", customerId);
         return customerRepository.findById(customerId)
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.error("|-> Customer not found with ID {}",customerId);
+                    return Mono.error(new CustomerExceptionNotFound());
+                }))
                 .flatMap(customer -> {
                     log.info("|-> Customer exists in the system.");
                     return personRepository.findById(customer.getPersonId())
                             .map(person -> customerMapper.getCustomerAll(person, customer));
-                })
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Customer not found with ID {}",customerId);
-                    return Mono.error(new CustomerExceptionNotFound());
-                }));
+                });
+
     }
 
 }

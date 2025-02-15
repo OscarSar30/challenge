@@ -17,8 +17,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AccountIdNotFound.class)
-    public ResponseEntity<ErrorDTO> handleCustomerException(AccountIdNotFound ex) {
+    @ExceptionHandler(AccountIdNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleCustomerException(AccountIdNotFoundException ex) {
+        ErrorDTO errorResponse = new ErrorDTO()
+                .code(ex.getCode())
+                .description(ex.getDescription());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ErrorDTO> handleCustomerException(InsufficientBalanceException ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getDescription());
@@ -27,6 +35,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerExceptionNotFound.class)
     public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(CustomerExceptionNotFound ex) {
+        ErrorDTO errorResponse = new ErrorDTO()
+                .code(ex.getCode())
+                .description(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MovementTypeNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(MovementTypeNotFoundException ex) {
+        ErrorDTO errorResponse = new ErrorDTO()
+                .code(ex.getCode())
+                .description(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(StatementAccountException.class)
+    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(StatementAccountException ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getMessage());
