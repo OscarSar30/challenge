@@ -7,10 +7,10 @@ import com.test.sp.customer.model.PostCustomerResponse;
 import com.test.sp.customer.model.PutCustomerByIdRequest;
 import com.test.sp.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -19,11 +19,11 @@ import reactor.core.publisher.Mono;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@Validated
 public class CustomerControllerImpl implements CustomersApi {
 
     private final CustomerService customerService;
 
+    @NonNull
     @Override
     public Mono<ResponseEntity<PostCustomerResponse>> postCustomer(Mono<PostCustomerRequest> postCustomerRequest,
                                                                    ServerWebExchange exchange) {

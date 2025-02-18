@@ -5,6 +5,9 @@ spring:
     password: 123
     url: r2dbc:postgresql://localhost:5432/postgres
     username: postgres
+    #url: jdbc:postgresql://database:5432/postgres
+    #username: postgres
+    #password: postgres
     driverClassName: org.postgresql.Driver
     initialization-mode: always
 
@@ -23,5 +26,5 @@ services:
   client:
     api:
       client-customer:
-        url: http://localhost:8093
+        url: http://localhost:8081
 
