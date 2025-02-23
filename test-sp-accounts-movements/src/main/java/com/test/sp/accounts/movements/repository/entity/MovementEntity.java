@@ -1,11 +1,10 @@
-package com.test.sp.accounts.movements.domain;
+package com.test.sp.accounts.movements.repository.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Table("movements")
 @ToString
@@ -13,7 +12,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movement {
+public class MovementEntity {
     @Id
     public Integer movementId;
     public LocalDate dateMovement;

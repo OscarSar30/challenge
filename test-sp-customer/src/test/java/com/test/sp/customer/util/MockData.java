@@ -1,7 +1,7 @@
 package com.test.sp.customer.util;
 
-import com.test.sp.customer.domain.Customer;
-import com.test.sp.customer.domain.Person;
+import com.test.sp.customer.repository.entity.CustomerEntity;
+import com.test.sp.customer.repository.entity.PersonEntity;
 import com.test.sp.customer.model.GetCustomersResponse;
 import com.test.sp.customer.model.PostCustomerRequest;
 import com.test.sp.customer.model.PostCustomerResponse;
@@ -52,23 +52,23 @@ public class MockData {
                 .phone("+51999999999");
     }
 
-    public static Customer mockCustomerEntity() {
-        Customer customer = new Customer();
-        customer.setCustomerId(1);
-        customer.setPersonId(1);
-        return customer;
+    public static CustomerEntity mockCustomerEntity() {
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setCustomerId(1);
+        customerEntity.setPersonId(1);
+        return customerEntity;
     }
 
-    public static Person mockPersonEntity() {
-        Person person = new Person();
-        person.setPersonId(1);
-        person.setAddress("USA");
-        person.setAge(20);
-        person.setGender("Male");
-        person.setPhone("+51999999999");
-        person.setFullName("John Doe");
-        person.setIdentification("1234567890");
-        return person;
+    public static PersonEntity mockPersonEntity() {
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.setPersonId(1);
+        personEntity.setAddress("USA");
+        personEntity.setAge(20);
+        personEntity.setGender("Male");
+        personEntity.setPhone("+51999999999");
+        personEntity.setFullName("John Doe");
+        personEntity.setIdentification("1234567890");
+        return personEntity;
     }
 
 }

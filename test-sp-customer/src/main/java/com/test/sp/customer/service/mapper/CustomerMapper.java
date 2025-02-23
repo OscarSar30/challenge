@@ -1,7 +1,7 @@
 package com.test.sp.customer.service.mapper;
 
-import com.test.sp.customer.domain.Customer;
-import com.test.sp.customer.domain.Person;
+import com.test.sp.customer.repository.entity.CustomerEntity;
+import com.test.sp.customer.repository.entity.PersonEntity;
 import com.test.sp.customer.model.GetCustomersResponse;
 import com.test.sp.customer.model.PostCustomerRequest;
 import com.test.sp.customer.model.PutCustomerByIdRequest;
@@ -19,20 +19,20 @@ public interface CustomerMapper {
 	@Mapping(source = "request.phone", target = "phone")
 	@Mapping(source = "request.identification", target = "identification")
 	@Mapping(target = "personId", ignore = true)
-	Person postRequestClientToPersonEntity(PostCustomerRequest request);
+	PersonEntity postRequestClientToPersonEntity(PostCustomerRequest request);
 
 	@Mapping(source = "request.password", target = "password")
 	@Mapping(source = "request.status", target = "status")
-	@Mapping(source = "person.personId", target = "personId")
+	@Mapping(source = "entity.personId", target = "personId")
 	@Mapping(target = "customerId", ignore = true)
-	Customer requestToCustomerEntity(PostCustomerRequest request,
-									 Person person);
+    CustomerEntity requestToCustomerEntity(PostCustomerRequest request,
+                                           PersonEntity entity);
 
 	@Mapping(source = "request.password", target = "password")
 	@Mapping(source = "request.status", target = "status")
-	@Mapping(source = "customer.customerId", target = "customerId")
-	Customer putRequestClientToCustomerEntity(PutCustomerByIdRequest request,
-											  Customer customer);
+	@Mapping(source = "entity.customerId", target = "customerId")
+    CustomerEntity putRequestClientToCustomerEntity(PutCustomerByIdRequest request,
+                                                    CustomerEntity entity);
 
 	@Mapping(source = "request.fullName", target = "fullName")
 	@Mapping(source = "request.gender", target = "gender")
@@ -41,9 +41,10 @@ public interface CustomerMapper {
 	@Mapping(source = "request.phone", target = "phone")
 	@Mapping(source = "request.identification", target = "identification")
 	@Mapping(source = "entity.personId", target = "personId")
-	Person putRequestClientToPersonEntity(PutCustomerByIdRequest request,
-										  Customer entity);
+	PersonEntity putRequestClientToPersonEntity(PutCustomerByIdRequest request,
+												CustomerEntity entity);
 
-	GetCustomersResponse getCustomerAll(Person entities,
-										Customer customer);
+	GetCustomersResponse getCustomerAll(PersonEntity entities,
+										CustomerEntity entity);
+
 }

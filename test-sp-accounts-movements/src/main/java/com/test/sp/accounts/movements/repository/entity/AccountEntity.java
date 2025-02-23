@@ -1,4 +1,4 @@
-package com.test.sp.accounts.movements.domain;
+package com.test.sp.accounts.movements.repository.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class AccountEntity {
     @Id
     public Integer accountId;
     public String accountNumber;

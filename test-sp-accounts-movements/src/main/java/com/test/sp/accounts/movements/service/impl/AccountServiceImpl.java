@@ -1,6 +1,6 @@
 package com.test.sp.accounts.movements.service.impl;
 
-import com.test.sp.accounts.movements.domain.Account;
+import com.test.sp.accounts.movements.repository.entity.AccountEntity;
 import com.test.sp.accounts.movements.exception.AccountIdNotFoundException;
 import com.test.sp.accounts.movements.exception.AccountNumberException;
 import com.test.sp.accounts.movements.model.GetAccountsResponse;
@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
                 .flatMap(getCustomersResponse -> {
                     log.info("|-> Customer obtained from DB");
                     return accountRepository.findByAccountNumber(request.getAccountNumber())
-                            .switchIfEmpty(Mono.just(new Account()))
+                            .switchIfEmpty(Mono.just(new AccountEntity()))
                             .flatMap(account -> {
                                 if (account.getAccountNumber() != null) {
                                     log.error("|-> Error. Account number already exists in DB: {}", request.getAccountNumber());

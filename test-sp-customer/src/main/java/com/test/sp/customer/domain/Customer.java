@@ -1,19 +1,25 @@
 package com.test.sp.customer.domain;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.experimental.FieldDefaults;
 
-@Table("customer")
-@ToString
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Customer {
-    @Id
-    public Integer customerId;
-    public String password;
-    public boolean status;
-    public Integer personId;
+@Generated
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Customer extends Person {
+
+    private static Customer instance;
+
+    String customerId;
+    String password;
+    String status;
+
+    public static Customer getInstance() {
+        if (instance == null) {
+            instance = new Customer();
+        }
+        return instance;
+    }
 }

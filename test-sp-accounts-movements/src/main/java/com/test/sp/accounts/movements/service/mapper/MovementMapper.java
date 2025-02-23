@@ -1,7 +1,7 @@
 package com.test.sp.accounts.movements.service.mapper;
 
-import com.test.sp.accounts.movements.domain.Account;
-import com.test.sp.accounts.movements.domain.Movement;
+import com.test.sp.accounts.movements.repository.entity.AccountEntity;
+import com.test.sp.accounts.movements.repository.entity.MovementEntity;
 import com.test.sp.accounts.movements.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,14 +15,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface MovementMapper {
 
 	@Mapping(target = "movementId", ignore = true)
-    Movement postRequestClientToMovementEntity(PostMovementRequest request);
+	MovementEntity postRequestClientToMovementEntity(PostMovementRequest request);
 
-	@Mapping(source = "movement.dateMovement", target = "dateMovement")
-	@Mapping(source = "account.accountNumber", target = "accountNumber")
-	@Mapping(source = "movement.movementType", target = "movementType")
-	@Mapping(source = "movement.amount", target = "amount")
-	@Mapping(source = "movement.balance", target = "balance")
-	GetMovementsResponse getMovementAll(Movement movement,
-										Account account);
+	@Mapping(source = "movementEntity.dateMovement", target = "dateMovement")
+	@Mapping(source = "accountEntity.accountNumber", target = "accountNumber")
+	@Mapping(source = "movementEntity.movementType", target = "movementType")
+	@Mapping(source = "movementEntity.amount", target = "amount")
+	@Mapping(source = "movementEntity.balance", target = "balance")
+	GetMovementsResponse getMovementAll(MovementEntity movementEntity,
+										AccountEntity accountEntity);
 
 }

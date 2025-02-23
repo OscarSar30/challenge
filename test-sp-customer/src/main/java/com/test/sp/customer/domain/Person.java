@@ -1,22 +1,29 @@
 package com.test.sp.customer.domain;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.experimental.FieldDefaults;
 
-@Table("person")
-@ToString
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Generated
 public class Person {
-    @Id
-    public Integer personId;
-    public String fullName;
-    public String gender;
-    public Integer age;
-    public String identification;
-    public String address;
-    public String phone;
+
+    private static Person instance;
+
+    Integer personId;
+    String identification;
+    String fullName;
+    String gender;
+    Integer age;
+    String address;
+    String phone;
+
+    public static Person getInstance() {
+        if (instance == null) {
+            instance = new Person();
+        }
+        return instance;
+    }
 }

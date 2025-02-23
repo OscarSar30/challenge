@@ -1,6 +1,6 @@
 package com.test.sp.accounts.movements.repository;
 
-import com.test.sp.accounts.movements.domain.Movement;
+import com.test.sp.accounts.movements.repository.entity.MovementEntity;
 import com.test.sp.accounts.movements.model.GetStatementAccountByFilterResponse;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -9,12 +9,12 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface MovementRepository extends ReactiveCrudRepository<Movement, Integer> {
+public interface MovementRepository extends ReactiveCrudRepository<MovementEntity, Integer> {
 
     @Query("SELECT * FROM MOVEMENTS M " +
             "WHERE M.ACCOUNT_ID = :accountId " +
             "ORDER BY M.MOVEMENT_ID DESC LIMIT 1")
-    Mono<Movement> findByAccountId(Integer accountId);
+    Mono<MovementEntity> findByAccountId(Integer accountId);
 
     @Query("SELECT MV.DATE_MOVEMENT, PR.FULL_NAME, ACC.ACCOUNT_NUMBER, ACC.ACCOUNT_TYPE, " +
             "ACC.INITIAL_BALANCE, MV.AMOUNT AS AMOUNT_MOVEMENT, MV.BALANCE AS AVAILABLE_BALANCE, " +

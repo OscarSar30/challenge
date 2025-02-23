@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccountNumberException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerException(AccountNumberException ex) {
+    public ResponseEntity<ErrorDTO> handleAccountExistsException(AccountNumberException ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getDescription());
@@ -18,23 +18,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccountIdNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerException(AccountIdNotFoundException ex) {
+    public ResponseEntity<ErrorDTO> handleAccountNotExistsException(AccountIdNotFoundException ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getDescription());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(InsufficientBalanceException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerException(InsufficientBalanceException ex) {
-        ErrorDTO errorResponse = new ErrorDTO()
-                .code(ex.getCode())
-                .description(ex.getDescription());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CustomerExceptionNotFound.class)
-    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(CustomerExceptionNotFound ex) {
+    public ResponseEntity<ErrorDTO> handleCustomerException(CustomerExceptionNotFound ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getMessage());
@@ -42,15 +34,23 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MovementTypeNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(MovementTypeNotFoundException ex) {
+    public ResponseEntity<ErrorDTO> handleMovementNotExistsException(MovementTypeNotFoundException ex) {
+        ErrorDTO errorResponse = new ErrorDTO()
+                .code(ex.getCode())
+                .description(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StatementAccountException.class)
+    public ResponseEntity<ErrorDTO> handleReportNotGeneratedException(StatementAccountException ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(StatementAccountException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(StatementAccountException ex) {
+    @ExceptionHandler(AccountInsufficientBalance.class)
+    public ResponseEntity<ErrorDTO> handleAccountInsufficientBalanceException(AccountInsufficientBalance ex) {
         ErrorDTO errorResponse = new ErrorDTO()
                 .code(ex.getCode())
                 .description(ex.getMessage());
