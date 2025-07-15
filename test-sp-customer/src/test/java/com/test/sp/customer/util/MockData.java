@@ -14,6 +14,8 @@ import java.util.UUID;
 
 public class MockData {
 
+    public static final String MOCK_IDENTIFICATION = "1234567890";
+
     public static PostCustomerRequest mockPostCustomerRequest() {
         return new PostCustomerRequest()
                 .age(20)
