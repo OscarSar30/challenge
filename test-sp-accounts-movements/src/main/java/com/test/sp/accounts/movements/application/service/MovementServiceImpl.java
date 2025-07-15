@@ -1,5 +1,10 @@
 package com.test.sp.accounts.movements.application.service;
 
+import com.test.sp.accounts.movements.application.output.port.AccountServiceAdapter;
+import com.test.sp.accounts.movements.application.output.port.MovementServiceAdapter;
+import com.test.sp.accounts.movements.domain.GetMovements;
+import com.test.sp.accounts.movements.domain.MovementRequest;
+import com.test.sp.accounts.movements.domain.MovementResponse;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.AccountEntity;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.MovementEntity;
 import com.test.sp.accounts.movements.infrastructure.exception.AccountIdNotFoundException;
@@ -24,15 +29,15 @@ import static com.test.sp.accounts.movements.util.Constants.MOVEMENT_TYPE_WITHDR
 @RequiredArgsConstructor
 public class MovementServiceImpl implements MovementService {
 
-    private final AccountRepository accountRepository;
-    private final MovementRepository movementRepository;
+    private final AccountServiceAdapter accountServiceAdapter;
+    private final MovementServiceAdapter movementServiceAdapter;
     private final MovementMapper movementMapper;
 
 
     @Override
-    public Mono<PostMovementResponse> postMovement(PostMovementRequest request) {
+    public Mono<MovementResponse> postMovement(MovementRequest request) {
         log.info("|-> Starts process of creating new movement service");
-        return accountRepository.findByAccountId(request.getAccountId())
+        return accountServiceAdapter.findByAccountId(request.getAccountId())
                 .flatMap(account -> handleAccount(account, request))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.error("|-> Account not found with ID {}", request.getAccountId());
@@ -42,31 +47,31 @@ public class MovementServiceImpl implements MovementService {
     }
 
     @Override
-    public Mono<Flux<GetMovementsResponse>> getMovements() {
+    public Flux<GetMovements> getMovements() {
         log.info("|-> Starts process of search movements");
-        return movementRepository.findAll()
+        return movementServiceAdapter.findAllMovements()
                 .flatMap(movementEntity ->
-                        accountRepository.findByAccountId(movementEntity.accountId)
+                        accountServiceAdapter.findByAccountId(movementEntity.getAccountId())
                                 .map(account -> movementMapper.getMovementAll(movementEntity, account)))
-                .switchIfEmpty(Mono.defer(() -> {
-                    log.error("|-> Movements not found");
-                    return Mono.error(new AccountIdNotFoundException());
-                }))
-                .collectList()
-                .map(Flux::fromIterable);
+                .doOnError(throwable -> log.error(
+                        "|-> Error search all customers. Error detail {}", throwable.getMessage()
+                ));
     }
 
-    private Mono<PostMovementResponse> handleAccount(AccountEntity accountEntity, PostMovementRequest request) {
+    private Mono<MovementResponse> handleAccount(AccountEntity accountEntity,
+                                                     MovementRequest request) {
         if (accountEntity.getInitialBalance() < 0) {
             log.error("|-> Account ID {} with insufficient balance.", request.getAccountId());
             return Mono.error(new AccountIdNotFoundException());
         }
-        return movementRepository.findByAccountId(request.getAccountId())
-                .switchIfEmpty(Mono.just(new MovementEntity()))
-                .flatMap(movementEntity -> processMovement(accountEntity, movementEntity, request));
+        return movementServiceAdapter.findMovementByAccountId(request.getAccountId())
+                .flatMap(movementEntity ->
+                        processMovement(accountEntity, movementEntity, request));
     }
 
-    private Mono<PostMovementResponse> processMovement(AccountEntity accountEntity, MovementEntity movementEntity, PostMovementRequest request) {
+    private Mono<MovementResponse> processMovement(AccountEntity accountEntity,
+                                                       MovementEntity movementEntity,
+                                                       MovementRequest request) {
         log.info("|-> Last movement obtained from DB. Initial process movement {}", request.getMovementType());
         return switch (request.getMovementType().toUpperCase()) {
             case MOVEMENT_TYPE_DEPOSIT -> handleDeposit(accountEntity, movementEntity, request);
@@ -78,7 +83,9 @@ public class MovementServiceImpl implements MovementService {
         };
     }
 
-    private Mono<PostMovementResponse> handleDeposit(AccountEntity accountEntity, MovementEntity movementEntity, PostMovementRequest request) {
+    private Mono<MovementResponse> handleDeposit(AccountEntity accountEntity,
+                                                 MovementEntity movementEntity,
+                                                 MovementRequest request) {
         double newBalance = (movementEntity.getBalance() == null)
                 ? accountEntity.getInitialBalance() + request.getAmount()
                 : movementEntity.getBalance() + request.getAmount();
@@ -86,7 +93,7 @@ public class MovementServiceImpl implements MovementService {
         return saveMovement(request);
     }
 
-    private Mono<PostMovementResponse> handleWithdrawal(AccountEntity accountEntity, MovementEntity movementEntity, PostMovementRequest request) {
+    private Mono<MovementResponse> handleWithdrawal(AccountEntity accountEntity, MovementEntity movementEntity, MovementRequest request) {
         double currentBalance = (movementEntity.getBalance() == null) ? accountEntity.getInitialBalance() : movementEntity.getBalance();
         if (currentBalance < request.getAmount()) {
             log.error("|-> Insufficient balance for RETIRO");
@@ -98,11 +105,11 @@ public class MovementServiceImpl implements MovementService {
         return saveMovement(request);
     }
 
-    private Mono<PostMovementResponse> saveMovement(PostMovementRequest request) {
-        return movementRepository.save(movementMapper.postRequestClientToMovementEntity(request))
+    private Mono<MovementResponse> saveMovement(MovementRequest request) {
+        return movementServiceAdapter.saveMovement(request)
                 .map(entity -> {
                     log.info("|-> Movement created. Type: {} with amount {}", request.getMovementType(), request.getAmount());
-                    PostMovementResponse response = new PostMovementResponse();
+                    MovementResponse response = new MovementResponse();
                     response.setMovementId(entity.getMovementId());
                     return response;
                 });

@@ -1,12 +1,20 @@
 package com.test.sp.accounts.movements.application.input.port;
 
+import com.test.sp.accounts.movements.domain.GetMovements;
+import com.test.sp.accounts.movements.domain.MovementRequest;
+import com.test.sp.accounts.movements.domain.MovementResponse;
 import com.test.sp.accounts.movements.model.GetMovementsResponse;
-import com.test.sp.accounts.movements.model.PostMovementRequest;
-import com.test.sp.accounts.movements.model.PostMovementResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Validated
 public interface MovementService {
-    Mono<PostMovementResponse> postMovement(PostMovementRequest postMovementRequest);
-    Mono<Flux<GetMovementsResponse>> getMovements();
+
+    Mono<MovementResponse> postMovement(@NotNull @Valid MovementRequest movementRequest);
+
+    Flux<GetMovements> getMovements();
+
 }

@@ -1,7 +1,7 @@
 package com.test.sp.accounts.movements.infrastructure.output.repository;
 
+import com.test.sp.accounts.movements.domain.StatementAccount;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.MovementEntity;
-import com.test.sp.accounts.movements.model.GetStatementAccountByFilterResponse;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ public interface MovementRepository extends ReactiveCrudRepository<MovementEntit
     @Query("SELECT * FROM MOVEMENTS M " +
             "WHERE M.ACCOUNT_ID = :accountId " +
             "ORDER BY M.MOVEMENT_ID DESC LIMIT 1")
-    Mono<MovementEntity> findByAccountId(Integer accountId);
+    Mono<MovementEntity> findByAccountId(UUID accountId);
 
     @Query("SELECT MV.DATE_MOVEMENT, PR.FULL_NAME, ACC.ACCOUNT_NUMBER, ACC.ACCOUNT_TYPE, " +
             "ACC.INITIAL_BALANCE, MV.AMOUNT AS AMOUNT_MOVEMENT, MV.BALANCE AS AVAILABLE_BALANCE, " +
@@ -28,7 +28,7 @@ public interface MovementRepository extends ReactiveCrudRepository<MovementEntit
             "AND MV.DATE_MOVEMENT::DATE BETWEEN TO_DATE(:startDate, 'DD/MM/YYYY') " +
             "AND TO_DATE(:endDate, 'DD/MM/YYYY')" +
             "ORDER BY MV.DATE_MOVEMENT DESC")
-    Flux<GetStatementAccountByFilterResponse> findStatementAccount(String identification,
-                                                                   String startDate,
-                                                                   String endDate);
+    Flux<StatementAccount> findStatementAccount(String identification,
+                                                String startDate,
+                                                String endDate);
 }

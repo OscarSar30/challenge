@@ -72,7 +72,7 @@ public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
     }
 
     @Override
-    public Mono<CustomerEntity> findCustomerByPersonId(UUID personId) {
+    public Mono<CustomerEntity> findByPersonId(UUID personId) {
         log.info("|-> Initiate search customer by person id adapter.");
         return customerRepository.findByPersonId(personId)
                 .switchIfEmpty(Mono.defer(() -> {

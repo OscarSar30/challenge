@@ -3,7 +3,7 @@
 -- DROP TABLE public.accounts;
 
 CREATE TABLE IF NOT EXISTS public.accounts (
-	account_id int4 PRIMARY KEY DEFAULT uuid_generate_v4(),
+	account_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	status bool NULL,
 	account_number varchar(255) NULL,
 	initial_balance float8 NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.accounts (
 -- DROP TABLE public.movements;
 
 CREATE TABLE IF NOT EXISTS public.movements(
-	movement_id int4 PRIMARY KEY DEFAULT uuid_generate_v4(),
+	movement_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	date_movement timestamp NOT NULL,
 	balance numeric(15, 2) NOT NULL,
 	movement_type varchar(255) NULL,

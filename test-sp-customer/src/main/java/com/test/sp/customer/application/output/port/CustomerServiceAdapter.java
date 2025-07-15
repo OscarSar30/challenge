@@ -22,7 +22,7 @@ public interface CustomerServiceAdapter {
     Mono<CustomerEntity> updateCustomer(@NotNull @Valid CustomerRequest request,
                                         CustomerEntity customerEntity);
 
-    Mono<CustomerEntity> findCustomerByPersonId(UUID personId);
+    Mono<CustomerEntity> findByPersonId(UUID personId);
 
     Mono<Void> deleteByCustomerId(@NotNull @NotBlank UUID customerId);
 }

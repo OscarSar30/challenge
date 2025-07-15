@@ -57,6 +57,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(MovementIdNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleMovementIdNotExistsException(MovementIdNotFoundException ex) {
+        ErrorDTO errorResponse = new ErrorDTO()
+                .code(ex.getCode())
+                .description(ex.getDescription());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGeneralException(Exception ex) {
         ErrorDTO errorResponse = new ErrorDTO()

@@ -1,8 +1,9 @@
 package com.test.sp.accounts.movements.infrastructure.output.repository.mapper;
 
+import com.test.sp.accounts.movements.domain.GetMovements;
+import com.test.sp.accounts.movements.domain.MovementRequest;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.AccountEntity;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.MovementEntity;
-import com.test.sp.accounts.movements.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -15,14 +16,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface MovementMapper {
 
 	@Mapping(target = "movementId", ignore = true)
-	MovementEntity postRequestClientToMovementEntity(PostMovementRequest request);
+	MovementEntity requestToMovementEntity(MovementRequest request);
 
 	@Mapping(source = "movementEntity.dateMovement", target = "dateMovement")
 	@Mapping(source = "accountEntity.accountNumber", target = "accountNumber")
 	@Mapping(source = "movementEntity.movementType", target = "movementType")
 	@Mapping(source = "movementEntity.amount", target = "amount")
 	@Mapping(source = "movementEntity.balance", target = "balance")
-	GetMovementsResponse getMovementAll(MovementEntity movementEntity,
-										AccountEntity accountEntity);
+	GetMovements getMovementAll(MovementEntity movementEntity,
+								AccountEntity accountEntity);
 
 }

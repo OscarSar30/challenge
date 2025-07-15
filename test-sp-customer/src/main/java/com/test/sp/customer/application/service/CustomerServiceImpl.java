@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("|-> Starts process of search customers");
         return personServiceAdapter.findAllPersons()
                 .flatMap(person ->
-                        customerServiceAdapter.findCustomerByPersonId(person.getPersonId())
+                        customerServiceAdapter.findByPersonId(person.getPersonId())
                                 .map(customer ->
                                         customerMapper.getCustomerAll(person, customer)))
                 .doOnError(throwable -> log.error(

@@ -6,11 +6,13 @@ import com.test.sp.accounts.movements.domain.GetAccounts;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+@Validated
 public interface AccountService {
 
     Mono<AccountResponse> postAccount(@NotNull @Valid AccountRequest request);

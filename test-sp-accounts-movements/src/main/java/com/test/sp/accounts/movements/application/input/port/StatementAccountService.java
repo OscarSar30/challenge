@@ -1,10 +1,14 @@
 package com.test.sp.accounts.movements.application.input.port;
 
-import com.test.sp.accounts.movements.model.GetStatementAccountByFilterResponse;
+import com.test.sp.accounts.movements.domain.StatementAccount;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
+@Validated
 public interface StatementAccountService {
-    Mono<Flux<GetStatementAccountByFilterResponse>> getStatementAccountByFilter(String identification,
-                                                                                String dateRange);
+
+    Flux<StatementAccount> getStatementAccountByFilter(@NotNull @Valid String identification,
+                                                       @NotNull @Valid String dateRange);
 }
