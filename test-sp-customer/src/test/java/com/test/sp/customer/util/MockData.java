@@ -1,5 +1,8 @@
 package com.test.sp.customer.util;
 
+import com.test.sp.customer.domain.CustomerRequest;
+import com.test.sp.customer.domain.CustomerResponse;
+import com.test.sp.customer.domain.GetCustomers;
 import com.test.sp.customer.infrastructure.output.repository.entity.CustomerEntity;
 import com.test.sp.customer.infrastructure.output.repository.entity.PersonEntity;
 import com.test.sp.customer.model.GetCustomersResponse;
@@ -7,9 +10,9 @@ import com.test.sp.customer.model.PostCustomerRequest;
 import com.test.sp.customer.model.PostCustomerResponse;
 import com.test.sp.customer.model.PutCustomerByIdRequest;
 
-public class MockData {
+import java.util.UUID;
 
-    /*public static final Integer MOCK_CUSTOMER_ID = 1;
+public class MockData {
 
     public static PostCustomerRequest mockPostCustomerRequest() {
         return new PostCustomerRequest()
@@ -25,7 +28,7 @@ public class MockData {
 
     public static PostCustomerResponse mockPostCustomerResponse() {
         return new PostCustomerResponse()
-                .customerId(1);
+                .customerId(UUID.randomUUID());
     }
 
     public static PutCustomerByIdRequest mockPutCustomerByIdRequest() {
@@ -54,14 +57,16 @@ public class MockData {
 
     public static CustomerEntity mockCustomerEntity() {
         CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setCustomerId(1);
-        customerEntity.setPersonId(1);
+        customerEntity.setCustomerId(UUID.randomUUID());
+        customerEntity.setPassword("123");
+        customerEntity.setStatus(true);
+        customerEntity.setPersonId(UUID.randomUUID());
         return customerEntity;
     }
 
     public static PersonEntity mockPersonEntity() {
         PersonEntity personEntity = new PersonEntity();
-        personEntity.setPersonId(1);
+        personEntity.setPersonId(UUID.randomUUID());
         personEntity.setAddress("USA");
         personEntity.setAge(20);
         personEntity.setGender("Male");
@@ -69,6 +74,18 @@ public class MockData {
         personEntity.setFullName("John Doe");
         personEntity.setIdentification("1234567890");
         return personEntity;
-    }*/
+    }
+
+    public static CustomerRequest mockCustomerRequest() {
+        return new CustomerRequest("1234567890", "John Doe", "Male", 20, "USA", "+51999999999", "123", true);
+    }
+
+    public static CustomerResponse mockCustomerResponse() {
+        return new CustomerResponse(UUID.randomUUID());
+    }
+
+    public static GetCustomers mockGetCustomers() {
+        return new GetCustomers(UUID.randomUUID(), "1234567890", "John Doe", "Male", 20, "USA", "+51999999999", "123", true);
+    }
 
 }
