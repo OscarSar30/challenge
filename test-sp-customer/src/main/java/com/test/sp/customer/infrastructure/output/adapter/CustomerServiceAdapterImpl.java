@@ -65,7 +65,7 @@ public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
         log.info("|-> Initiate update customer adapter.");
         return customerRepository.save(customerMapper.requestToCustomerEntity(request, customerEntity))
                 .doOnSuccess(entity -> log.info(
-                        "|-> Adapter:: Update successfully."))
+                        "|-> Adapter:: Update customer successfully."))
                 .doOnError(error ->
                         log.error("|-> Adapter:: Error update customer by ID {}. Error detail {}", customerEntity.getCustomerId(),
                                 error.getMessage()));

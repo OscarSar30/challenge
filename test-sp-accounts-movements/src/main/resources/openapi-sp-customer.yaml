@@ -86,8 +86,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            format: uuid
       responses:
         '200':
           description: OK
@@ -120,8 +120,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            format: uuid
       requestBody:
         description: Cliente
         content:
@@ -161,8 +161,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            format: uuid
       responses:
         '200':
           description: OK
@@ -230,8 +230,8 @@ components:
     PostCustomerResponse:
       properties:
         customerId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
     PutCustomerByIdRequest:
       type: object
       properties:
@@ -268,8 +268,8 @@ components:
       type: object
       properties:
         customerId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
         identification:
           type: string
         fullName:

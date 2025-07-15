@@ -86,8 +86,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            format: uuid
       responses:
         '200':
           description: OK
@@ -120,8 +120,8 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            format: int32
+            type: string
+            format: uuid
       requestBody:
         description: Cliente
         content:
@@ -291,19 +291,18 @@ components:
         status:
           type: string
         customerId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
     PostAccountResponse:
       properties:
         accountId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
     PutAccountByIdRequest:
       required:
         - accountNumber
         - initialBalance
         - status
-        - customerId
       type: object
       properties:
         accountNumber:
@@ -337,19 +336,19 @@ components:
           type: number
           format: double
         accountId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
     PostMovementResponse:
       properties:
         movementId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
     GetAccountsResponse:
       type: object
       properties:
         accountId:
-          type: integer
-          format: int32
+          type: string
+          format: uuid
         accountNumber:
           type: string
         accountType:
