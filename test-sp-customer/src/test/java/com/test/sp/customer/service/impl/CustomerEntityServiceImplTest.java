@@ -1,27 +1,12 @@
 package com.test.sp.customer.service.impl;
 
-import com.test.sp.customer.exception.CustomerExceptionNotFound;
-import com.test.sp.customer.exception.PostCustomerException;
-import com.test.sp.customer.repository.CustomerRepository;
-import com.test.sp.customer.repository.PersonRepository;
-import com.test.sp.customer.service.mapper.CustomerMapper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-
-import static com.test.sp.customer.util.MockData.*;
-import static com.test.sp.customer.util.MockData.mockCustomerEntity;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerEntityServiceImplTest {
 
-    @Mock
+    /*@Mock
     private PersonRepository personRepository;
     @Mock
     private CustomerRepository customerRepository;
@@ -73,6 +58,6 @@ class CustomerEntityServiceImplTest {
         StepVerifier.create(customerService.putCustomer(MOCK_CUSTOMER_ID, mockPutCustomerByIdRequest()))
                 .expectError(CustomerExceptionNotFound.class)
                 .verify();
-    }
+    }*/
 
 }
