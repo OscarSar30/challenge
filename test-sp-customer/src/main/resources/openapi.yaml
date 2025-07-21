@@ -201,7 +201,7 @@ components:
         identification:
           maxLength: 13
           minLength: 10
-          pattern: "^[0-9]{10,13}$"
+          pattern: "^[0-9]+$"
           type: string
         fullName:
           maxLength: 255
