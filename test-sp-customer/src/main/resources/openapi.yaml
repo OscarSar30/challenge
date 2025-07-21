@@ -205,12 +205,15 @@ components:
           type: string
         fullName:
           maxLength: 255
+          minLength: 10
           pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
           type: string
         gender:
           type: string
         age:
           type: integer
+          minimum: 0
+          maximum: 120
           format: int32
         address:
           maxLength: 255
@@ -242,12 +245,15 @@ components:
           type: string
         fullName:
           maxLength: 255
+          minLength: 10
           pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
           type: string
         gender:
           type: string
         age:
           type: integer
+          minimum: 0
+          maximum: 120
           format: int32
         address:
           maxLength: 255

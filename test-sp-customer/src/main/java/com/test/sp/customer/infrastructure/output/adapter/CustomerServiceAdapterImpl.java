@@ -35,7 +35,7 @@ public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
     }
 
     @Override
-    public Mono<CustomerEntity> saveCustomer(CustomerRequest request,
+    public Mono<CustomerEntity> saveCustomer(@NotNull @Valid CustomerRequest request,
                                              PersonEntity personEntity) {
         log.info("|-> Initiate save customer adapter.");
         return customerRepository.save(customerMapper.requestToCustomerEntity(request, personEntity))
