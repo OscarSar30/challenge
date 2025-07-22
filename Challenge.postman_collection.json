@@ -272,7 +272,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateMovement\": \"2025-07-21\",\r\n    \"movementType\": \"DEPOSITO\",\r\n    \"amount\": 540,\r\n    \"accountId\": \"101d5714-56c8-4af1-8a37-4971a18f31db\"\r\n}",
+							"raw": "{\r\n    \"dateMovement\": \"2025-07-22\",\r\n    \"movementType\": \"DEPOSITO\",\r\n    \"amount\": 1.50,\r\n    \"accountId\": \"101d5714-56c8-4af1-8a37-4971a18f31db\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -324,7 +324,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"dateMovement\": \"2025-07-15\",\r\n    \"movementType\": \"Retiro\",\r\n    \"amount\": 540,\r\n    \"accountId\": \"b1feec26-e649-455f-a8b6-4a305ca957ed\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
