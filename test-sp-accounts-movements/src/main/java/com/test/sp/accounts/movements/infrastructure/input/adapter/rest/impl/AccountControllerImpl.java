@@ -33,6 +33,7 @@ public class AccountControllerImpl implements AccountsApi {
         return postAccountRequest
                 .map(apiMapper::toAccountRequest)
                 .flatMap(accountService::postAccount)
+                .doOnError(e -> log.error("<-| Error while creating account. Error: {}", e.getMessage()))
                 .map(apiMapper::toAccountResponse)
                 .map(postAccountResponse ->
                         new ResponseEntity<>(postAccountResponse, HttpStatus.CREATED));
@@ -47,6 +48,7 @@ public class AccountControllerImpl implements AccountsApi {
                 .map(apiMapper::toAccountRequest)
                 .flatMap(request ->
                         accountService.putAccountById(accountId, request))
+                .doOnError(e -> log.error("<-| Error while updating account. Error: {}", e.getMessage()))
                 .thenReturn(ResponseEntity.ok().build());
 
     }
@@ -56,6 +58,7 @@ public class AccountControllerImpl implements AccountsApi {
         log.info("|-> Initiates the call to the query method for all accounts.");
         Flux<GetAccountsResponse> response =
                 accountService.getAccounts()
+                        .doOnError(e -> log.error("<-| Error while searching accounts. Error: {}", e.getMessage()))
                 .map(apiMapper::toGetAccountsResponse);
         return Mono.just(ResponseEntity.ok().body(response));
     }
@@ -65,6 +68,7 @@ public class AccountControllerImpl implements AccountsApi {
                                                     ServerWebExchange exchange) {
         log.info("|-> Initiates the call to the customer delete method.");
         return accountService.deleteAccount(accountId)
+                .doOnError(e -> log.error("<-| Error while deleting account. Error: {}", e.getMessage()))
                 .thenReturn(ResponseEntity.ok().build());
     }
 }

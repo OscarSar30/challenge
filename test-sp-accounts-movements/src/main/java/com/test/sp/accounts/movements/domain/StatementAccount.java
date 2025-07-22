@@ -1,5 +1,6 @@
 package com.test.sp.accounts.movements.domain;
 
+import com.test.sp.accounts.movements.domain.enums.AccountTypeEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,7 +19,7 @@ public class StatementAccount {
     LocalDate dateMovement;
     String fullName;
     String accountNumber;
-    String accountType;
+    AccountTypeEnum accountType;
     Double initialBalance;
     Boolean status;
     Double amountMovement;

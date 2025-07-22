@@ -1,5 +1,7 @@
 package com.test.sp.accounts.movements.domain;
 
+import com.test.sp.accounts.movements.domain.enums.MovementTypeEnum;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,11 +15,14 @@ import java.util.UUID;
 @Generated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MovementRequest {
-
+    @NotNull
     LocalDate dateMovement;
-    String movementType;
+    @NotNull
+    MovementTypeEnum movementType;
+    @NotNull
     Double amount;
     Double balance;
+    @NotNull
     UUID accountId;
 
 }

@@ -26,6 +26,7 @@ public class StatementAccountControllerImpl implements StatementAccountsApi {
                                                                                                        ServerWebExchange exchange) {
         log.info("|-> Initiates the call to the query method for statement account.");
         Flux<GetStatementAccountByFilterResponse> response = statementAccountService.getStatementAccountByFilter(identification,dateRange)
+                .doOnError(e -> log.error("<-| Error while searching statement account. Error: {}", e.getMessage()))
                 .map(apiMapper::toStatementAccountResponse);
         return Mono.just(ResponseEntity.ok().body(response));
     }

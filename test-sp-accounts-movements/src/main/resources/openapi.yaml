@@ -25,24 +25,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GetAccountsResponse'
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Accounts
@@ -67,13 +67,13 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
   /accounts/{accountId}:
     delete:
       tags:
@@ -91,24 +91,24 @@ paths:
       responses:
         '200':
           description: OK
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       tags:
         - Accounts
@@ -137,19 +137,19 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
   /movements:
     get:
       tags:
@@ -166,24 +166,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GetMovementsResponse'
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Movements
@@ -208,13 +208,13 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
   /statement-accounts:
     get:
       tags:
@@ -250,29 +250,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GetStatementAccountByFilterResponse'
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     PostAccountRequest:
       required:
         - accountNumber
+        - accountType
         - initialBalance
         - status
         - customerId
@@ -281,15 +282,17 @@ components:
         accountNumber:
           maxLength: 20
           minLength: 10
-          pattern: "^[0-9]{10,20}$"
+          pattern: "^[0-9]+$"
           type: string
         accountType:
           type: string
+          enum: [AHORRO, CORRIENTE]
         initialBalance:
           type: number
           format: double
+          minimum: 0
         status:
-          type: string
+          type: boolean
         customerId:
           type: string
           format: uuid
@@ -301,6 +304,7 @@ components:
     PutAccountByIdRequest:
       required:
         - accountNumber
+        - accountType
         - initialBalance
         - status
       type: object
@@ -308,19 +312,22 @@ components:
         accountNumber:
           maxLength: 20
           minLength: 10
-          pattern: "^[0-9]{10,20}$"
+          pattern: "^[0-9]+$"
           type: string
         accountType:
           type: string
+          enum: [AHORRO, CORRIENTE]
         initialBalance:
           type: number
           format: double
+          minimum: 0
         status:
-          type: string
+          type: boolean
     PostMovementRequest:
       required:
         - dateMovement
         - movementType
+        - amount
         - accountId
       type: object
       properties:
@@ -329,6 +336,7 @@ components:
           format: date
         movementType:
           type: string
+          enum: [DEPOSITO, RETIRO]
         amount:
           type: number
           format: double
@@ -353,6 +361,7 @@ components:
           type: string
         accountType:
           type: string
+          enum: [AHORRO, CORRIENTE]
         initialBalance:
           type: string
         status:
@@ -369,6 +378,7 @@ components:
           type: string
         movementType:
           type: string
+          enum: [DEPOSITO, RETIRO]
         amount:
           type: number
           format: double
@@ -387,6 +397,7 @@ components:
           type: string
         accountType:
           type: string
+          enum: [AHORRO, CORRIENTE]
         initialBalance:
           type: number
           format: double
@@ -398,10 +409,22 @@ components:
         availableBalance:
           type: number
           format: double
-    ErrorDTO:
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
+        businessMessage:
+          type: string
+
+    ErrorResponse:
       type: object
       properties:
         code:
           type: string
-        description:
+        detail:
           type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'

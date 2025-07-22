@@ -3,7 +3,6 @@ package com.test.sp.accounts.movements.application.input.port;
 import com.test.sp.accounts.movements.domain.GetMovements;
 import com.test.sp.accounts.movements.domain.MovementRequest;
 import com.test.sp.accounts.movements.domain.MovementResponse;
-import com.test.sp.accounts.movements.model.GetMovementsResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;

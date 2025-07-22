@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<Void> putAccountById(@NotNull @NotBlank UUID accountId,
+    public Mono<Void> putAccountById(@NotNull UUID accountId,
                                      @NotNull @Valid AccountRequest request) {
         log.info("|-> Starts process of updating account by ID {}", accountId);
         return accountServiceAdapter.findByAccountId(accountId)
@@ -83,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<Void> deleteAccount(@NotNull @NotBlank UUID accountId) {
+    public Mono<Void> deleteAccount(@NotNull UUID accountId) {
         log.info("|-> Starts process of deleting account by ID {}", accountId);
         return accountServiceAdapter.findByAccountId(accountId)
                 .flatMap(account -> {

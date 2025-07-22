@@ -1,5 +1,6 @@
 package com.test.sp.accounts.movements.domain;
 
+import com.test.sp.accounts.movements.domain.enums.AccountTypeEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 public class GetAccounts {
     UUID accountId;
     String accountNumber;
-    String accountType;
+    AccountTypeEnum accountType;
     String initialBalance;
     Boolean status;
     String fullName;

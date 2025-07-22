@@ -14,7 +14,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8093/customers/001ef7a3-719d-4ea3-b1c4-3fb5dc567194",
+							"raw": "http://localhost:8093/customers/620497e3-44bb-4ee6-b310-f7fdacc000ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22,7 +22,7 @@
 							"port": "8093",
 							"path": [
 								"customers",
-								"001ef7a3-719d-4ea3-b1c4-3fb5dc567194"
+								"620497e3-44bb-4ee6-b310-f7fdacc000ee"
 							]
 						}
 					},
@@ -77,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Oscar Sarcos\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 26,\r\n    \"identification\": \"0985987553\",\r\n    \"address\": \"Guasmo Central\",\r\n    \"phone\": \"0985987553\",\r\n    \"password\": \"Oscar123\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"fullName\": \"Oscar Sarcos\",\r\n    \"gender\": \"MASCULINO\",\r\n    \"age\": 26,\r\n    \"identification\": \"0923333333333\",\r\n    \"address\": \"Guasmo Central\",\r\n    \"phone\": \"0985987553\",\r\n    \"password\": \"Oscarsarcos1996*\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Oscar Sarcos Sinche\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"0951782085\",\r\n    \"address\": \"Guayaquil\",\r\n    \"phone\": \"0985987553\",\r\n    \"password\": \"abc123456789\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"fullName\": \"Oscar Sarcos\",\r\n    \"gender\": \"OTRO\",\r\n    \"age\": 30,\r\n    \"identification\": \"0923333333333\",\r\n    \"address\": \"Guasmo Central\",\r\n    \"phone\": \"0985987553\",\r\n    \"password\": \"SantiNath1506_\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +113,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8093/customers/32a246c6-88b7-4402-ad15-a22e9bbb84cf",
+							"raw": "http://localhost:8093/customers/620497e3-44bb-4ee6-b310-f7fdacc000ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -121,7 +121,7 @@
 							"port": "8093",
 							"path": [
 								"customers",
-								"32a246c6-88b7-4402-ad15-a22e9bbb84cf"
+								"620497e3-44bb-4ee6-b310-f7fdacc000ee"
 							]
 						}
 					},
@@ -145,7 +145,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8093/customers/32a246c6-88b7-4402-ad15-a22e9bbb84cf",
+							"raw": "http://localhost:8093/customers/620497e3-44bb-4ee6-b310-f7fdacc000ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -153,7 +153,7 @@
 							"port": "8093",
 							"path": [
 								"customers",
-								"32a246c6-88b7-4402-ad15-a22e9bbb84cf"
+								"620497e3-44bb-4ee6-b310-f7fdacc000ee"
 							]
 						}
 					},
@@ -190,7 +190,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"accountNumber\": \"2204046363\",\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialBalance\": 10000,\r\n    \"status\": true,\r\n    \"customerId\": \"32a246c6-88b7-4402-ad15-a22e9bbb84cf\"\r\n}",
+							"raw": "{\r\n    \"accountNumber\": \"2204046364\",\r\n    \"accountType\": \"AHORRO\",\r\n    \"initialBalance\": 10000,\r\n    \"status\": true,\r\n    \"customerId\": \"32a246c6-88b7-4402-ad15-a22e9bbb84cf\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,7 +218,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"accountNumber\": \"2204046363\",\r\n    \"accountType\": \"Ahorros\",\r\n    \"initialBalance\": 1000,\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"accountNumber\": \"2204046364\",\r\n    \"accountType\": \"CORRIENTE\",\r\n    \"initialBalance\": 1000,\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -226,7 +226,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8094/accounts/dae88074-3ca1-4676-90ba-9213ca8ad6d1",
+							"raw": "http://localhost:8094/accounts/ed1a981e-a18a-42b4-aa27-1ac529b95db4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -234,7 +234,7 @@
 							"port": "8094",
 							"path": [
 								"accounts",
-								"dae88074-3ca1-4676-90ba-9213ca8ad6d1"
+								"ed1a981e-a18a-42b4-aa27-1ac529b95db4"
 							]
 						}
 					},
@@ -246,7 +246,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8094/accounts/b8313375-4dd4-4b97-82a8-0d49a0631c1b",
+							"raw": "http://localhost:8094/accounts/ed1a981e-a18a-42b4-aa27-1ac529b95db4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -254,7 +254,7 @@
 							"port": "8094",
 							"path": [
 								"accounts",
-								"b8313375-4dd4-4b97-82a8-0d49a0631c1b"
+								"ed1a981e-a18a-42b4-aa27-1ac529b95db4"
 							]
 						}
 					},
@@ -272,7 +272,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateMovement\": \"2025-07-15\",\r\n    \"movementType\": \"Retiro\",\r\n    \"amount\": 540,\r\n    \"accountId\": \"b1feec26-e649-455f-a8b6-4a305ca957ed\"\r\n}",
+							"raw": "{\r\n    \"dateMovement\": \"2025-07-21\",\r\n    \"movementType\": \"DEPOSITO\",\r\n    \"amount\": 540,\r\n    \"accountId\": \"101d5714-56c8-4af1-8a37-4971a18f31db\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -316,11 +316,23 @@
 		},
 		{
 			"name": "StatamentAccountByFilter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dateMovement\": \"2025-07-15\",\r\n    \"movementType\": \"Retiro\",\r\n    \"amount\": 540,\r\n    \"accountId\": \"b1feec26-e649-455f-a8b6-4a305ca957ed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8094/statement-accounts?identification=097548965&dateRange=01/07/2025;31/07/2025",
+					"raw": "http://localhost:8094/statement-accounts?identification=0951782085&dateRange=01/07/2025;31/07/2025",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -332,7 +344,7 @@
 					"query": [
 						{
 							"key": "identification",
-							"value": "097548965"
+							"value": "0951782085"
 						},
 						{
 							"key": "dateRange",

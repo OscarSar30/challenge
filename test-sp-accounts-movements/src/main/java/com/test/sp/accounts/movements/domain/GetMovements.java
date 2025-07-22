@@ -1,5 +1,6 @@
 package com.test.sp.accounts.movements.domain;
 
+import com.test.sp.accounts.movements.domain.enums.MovementTypeEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 public class GetMovements {
     LocalDate dateMovement;
     String accountNumber;
-    String movementType;
+    MovementTypeEnum movementType;
     Double amount;
     Double balance;
 }

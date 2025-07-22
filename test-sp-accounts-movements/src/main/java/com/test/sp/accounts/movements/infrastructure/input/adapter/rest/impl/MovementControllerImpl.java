@@ -28,6 +28,7 @@ public class MovementControllerImpl implements MovementsApi {
         return postMovementRequest
                 .map(apiMapper::toMovementRequest)
                 .flatMap(movementService::postMovement)
+                .doOnError(e -> log.error("<-| Error while creating movement. Error: {}", e.getMessage()))
                 .map(apiMapper::toMovementResponse)
                 .map(postCustomerResponse ->
                         new ResponseEntity<>(postCustomerResponse, HttpStatus.CREATED));
@@ -37,7 +38,8 @@ public class MovementControllerImpl implements MovementsApi {
     public Mono<ResponseEntity<Flux<GetMovementsResponse>>> getMovements(ServerWebExchange exchange) {
         log.info("|-> Initiates the call to the query method for all movements.");
         Flux<GetMovementsResponse> response = movementService.getMovements()
-                        .map(apiMapper::toGetMovementsResponse);
+                .doOnError(e -> log.error("<-| Error while searching movements. Error: {}", e.getMessage()))
+                .map(apiMapper::toGetMovementsResponse);
         return Mono.just(ResponseEntity.ok().body(response));
     }
 

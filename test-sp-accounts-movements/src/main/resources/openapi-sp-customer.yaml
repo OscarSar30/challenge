@@ -25,24 +25,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GetCustomersResponse'
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - Customer
@@ -67,13 +61,13 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
   /customers/{customerId}:
     delete:
       tags:
@@ -91,24 +85,18 @@ paths:
       responses:
         '200':
           description: OK
-        '204':
-          description: No Content
-          content:
-            application/json; charset=UTF-8:
-              schema:
-                $ref: '#/components/schemas/ErrorDTO'
         '400':
           description: Bad Request
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       tags:
         - Customer
@@ -137,19 +125,19 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
     get:
       tags:
         - Customer
@@ -175,19 +163,19 @@ paths:
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Not Found
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Internal Server Error
           content:
             application/json; charset=UTF-8:
               schema:
-                $ref: '#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     PostCustomerRequest:
@@ -201,16 +189,19 @@ components:
         identification:
           maxLength: 13
           minLength: 10
-          pattern: "^[0-9]{10,13}$"
+          pattern: "^[0-9]+$"
           type: string
         fullName:
           maxLength: 255
+          minLength: 10
           pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
           type: string
         gender:
           type: string
         age:
           type: integer
+          minimum: 0
+          maximum: 120
           format: int32
         address:
           maxLength: 255
@@ -242,12 +233,15 @@ components:
           type: string
         fullName:
           maxLength: 255
+          minLength: 10
           pattern: "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
           type: string
         gender:
           type: string
         age:
           type: integer
+          minimum: 0
+          maximum: 120
           format: int32
         address:
           maxLength: 255
@@ -287,10 +281,22 @@ components:
           type: string
         status:
           type: boolean
-    ErrorDTO:
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
+        businessMessage:
+          type: string
+
+    ErrorResponse:
       type: object
       properties:
         code:
           type: string
-        description:
+        detail:
           type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'

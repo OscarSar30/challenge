@@ -16,12 +16,12 @@ public interface AccountServiceAdapter {
 
     Mono<AccountEntity> saveAccount(@NotNull @Valid AccountRequest request);
 
-    Mono<AccountEntity> findByAccountId(@NotNull @NotBlank UUID accountId);
+    Mono<AccountEntity> findByAccountId(@NotNull UUID accountId);
 
     Mono<AccountEntity> updateAccount(@NotNull @Valid AccountRequest request,
                                       AccountEntity account);
 
     Flux<AccountEntity> findAllAccounts();
 
-    Mono<Void> deleteByAccountId(@NotNull @NotBlank UUID accountId);
+    Mono<Void> deleteByAccountId(@NotNull UUID accountId);
 }
