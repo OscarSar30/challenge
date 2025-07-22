@@ -1,5 +1,6 @@
 package com.test.sp.customer.domain;
 
+import com.test.sp.customer.domain.enums.GenderEnum;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,7 +16,7 @@ public class GetCustomers {
     UUID customerId;
     String identification;
     String fullName;
-    String gender;
+    GenderEnum gender;
     Integer age;
     String address;
     String phone;

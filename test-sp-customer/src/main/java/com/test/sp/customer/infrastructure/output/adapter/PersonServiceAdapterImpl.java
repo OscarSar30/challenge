@@ -7,8 +7,6 @@ import com.test.sp.customer.infrastructure.output.repository.PersonRepository;
 import com.test.sp.customer.infrastructure.output.repository.entity.CustomerEntity;
 import com.test.sp.customer.infrastructure.output.repository.entity.PersonEntity;
 import com.test.sp.customer.infrastructure.output.repository.mapper.PersonMapper;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class PersonServiceAdapterImpl implements PersonServiceAdapter {
     private final PersonMapper personMapper;
 
     @Override
-    public Mono<PersonEntity> savePerson(@NotNull @Valid CustomerRequest request) {
+    public Mono<PersonEntity> savePerson(CustomerRequest request) {
         log.info("|-> Initiate save person adapter.");
         return personRepository.save(personMapper.requestToEntity(request))
                 .doOnSuccess(customersEntity -> log.info(
@@ -36,7 +34,7 @@ public class PersonServiceAdapterImpl implements PersonServiceAdapter {
     }
 
     @Override
-    public Mono<PersonEntity> updatePerson(@NotNull @Valid CustomerRequest request,
+    public Mono<PersonEntity> updatePerson(CustomerRequest request,
                                            CustomerEntity customerEntity) {
         log.info("|-> Initiate update person adapter.");
         return personRepository.save(personMapper.requestToEntity(request, customerEntity))

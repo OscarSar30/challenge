@@ -33,6 +33,7 @@ public class CustomerControllerImpl implements CustomersApi {
         return postCustomerRequest
                 .map(apiMapper::toCustomerRequest)
                 .flatMap(customerService::postCustomer)
+                .doOnError(e -> log.error("<-| Error while creating customer. Error: {}", e.getMessage()))
                 .map(apiMapper::toCustomerResponse)
                 .map(postCustomerResponse ->
                         new ResponseEntity<>(postCustomerResponse, HttpStatus.CREATED));
@@ -47,6 +48,7 @@ public class CustomerControllerImpl implements CustomersApi {
                 .map(apiMapper::toCustomerRequest)
                 .flatMap(request ->
                         customerService.putCustomer(customerId, request))
+                .doOnError(e -> log.error("<-| Error while updating customer. Error: {}", e.getMessage()))
                 .thenReturn(ResponseEntity.ok().build());
     }
 
@@ -55,6 +57,7 @@ public class CustomerControllerImpl implements CustomersApi {
         log.info("|-> Initiates the call to the query method for all customers.");
         Flux<GetCustomersResponse> response =
                 customerService.getCustomers()
+                        .doOnError(e -> log.error("<-| Error while searching customers. Error: {}", e.getMessage()))
                         .map(apiMapper::toGetCustomersResponse);
         return Mono.just(ResponseEntity.ok().body(response));
 
@@ -65,6 +68,7 @@ public class CustomerControllerImpl implements CustomersApi {
                                                      ServerWebExchange exchange) {
         log.info("|-> Initiates the call to the customer delete method.");
         return customerService.deleteCustomer(customerId)
+                .doOnError(e -> log.error("<-| Error while deleting customer. Error: {}", e.getMessage()))
                 .thenReturn(ResponseEntity.ok().build());
     }
 
@@ -73,6 +77,7 @@ public class CustomerControllerImpl implements CustomersApi {
                                                                       ServerWebExchange exchange) {
         log.info("|-> Initiates the call to the customer search method.");
         return customerService.getCustomerById(customerId)
+                .doOnError(e -> log.error("<-| Error while searching customer by id. Error: {}", e.getMessage()))
                 .map(apiMapper::toGetCustomersResponse)
                 .map(getCustomersResponse ->
                         new ResponseEntity<>(getCustomersResponse, HttpStatus.OK));

@@ -17,12 +17,12 @@ public interface CustomerService {
 
     Mono<CustomerResponse> postCustomer(@NotNull @Valid CustomerRequest request);
 
-    Mono<Void> putCustomer(@NotNull @NotBlank UUID customerId,
+    Mono<Void> putCustomer(@NotNull UUID customerId,
                            @NotNull @Valid CustomerRequest putCustomerByIdRequest);
 
     Flux<GetCustomers> getCustomers();
 
-    Mono<Void> deleteCustomer(@NotNull @NotBlank UUID customerId);
+    Mono<Void> deleteCustomer(@NotNull UUID customerId);
 
-    Mono<GetCustomers> getCustomerById(@NotNull @NotBlank UUID customerId);
+    Mono<GetCustomers> getCustomerById(@NotNull UUID customerId);
 }

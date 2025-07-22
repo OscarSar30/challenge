@@ -3,6 +3,7 @@ package com.test.sp.customer.util;
 import com.test.sp.customer.domain.CustomerRequest;
 import com.test.sp.customer.domain.CustomerResponse;
 import com.test.sp.customer.domain.GetCustomers;
+import com.test.sp.customer.domain.enums.GenderEnum;
 import com.test.sp.customer.infrastructure.output.repository.entity.CustomerEntity;
 import com.test.sp.customer.infrastructure.output.repository.entity.PersonEntity;
 import com.test.sp.customer.model.GetCustomersResponse;
@@ -24,7 +25,7 @@ public class MockData {
                 .identification("1234567890")
                 .password("123")
                 .status(true)
-                .gender("Male")
+                .gender(PostCustomerRequest.GenderEnum.MASCULINO)
                 .phone("+51999999999");
     }
 
@@ -41,7 +42,7 @@ public class MockData {
                 .identification("1234567890")
                 .password("123")
                 .status(true)
-                .gender("Male")
+                .gender(PutCustomerByIdRequest.GenderEnum.MASCULINO)
                 .phone("+51999999999");
     }
 
@@ -53,7 +54,7 @@ public class MockData {
                 .identification("1234567890")
                 .password("123")
                 .status(true)
-                .gender("Male")
+                .gender(GetCustomersResponse.GenderEnum.MASCULINO)
                 .phone("+51999999999");
     }
 
@@ -79,7 +80,7 @@ public class MockData {
     }
 
     public static CustomerRequest mockCustomerRequest() {
-        return new CustomerRequest("1234567890", "John Doe", "Male", 20, "USA", "+51999999999", "123", true);
+        return new CustomerRequest("1234567890", "John Doe", GenderEnum.MASCULINO, 20, "USA", "+51999999999", "123", true);
     }
 
     public static CustomerResponse mockCustomerResponse() {
@@ -87,7 +88,7 @@ public class MockData {
     }
 
     public static GetCustomers mockGetCustomers() {
-        return new GetCustomers(UUID.randomUUID(), "1234567890", "John Doe", "Male", 20, "USA", "+51999999999", "123", true);
+        return new GetCustomers(UUID.randomUUID(), "1234567890", "John Doe", GenderEnum.MASCULINO, 20, "USA", "+51999999999", "123", true);
     }
 
 }

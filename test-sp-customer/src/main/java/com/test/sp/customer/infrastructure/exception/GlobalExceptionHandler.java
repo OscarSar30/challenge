@@ -1,46 +1,42 @@
 package com.test.sp.customer.infrastructure.exception;
 
-import com.test.sp.customer.model.ErrorDTO;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import com.test.sp.customer.model.ErrorDetail;
+import com.test.sp.customer.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(PostCustomerException.class)
-    public ResponseEntity<ErrorDTO> handleCustomerException(PostCustomerException ex) {
-        ErrorDTO errorResponse = new ErrorDTO()
+    public ResponseEntity<ErrorResponse> handleCustomerException(PostCustomerException ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
                 .code(ex.getCode())
-                .description(ex.getDescription());
+                .detail(ex.getDetail());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CustomerExceptionNotFound.class)
-    public ResponseEntity<ErrorDTO> handleCustomerNotFoundException(CustomerExceptionNotFound ex) {
-        ErrorDTO errorResponse = new ErrorDTO()
+    public ResponseEntity<ErrorResponse> handleCustomerNotFoundException(CustomerExceptionNotFound ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
                 .code(ex.getCode())
-                .description(ex.getMessage());
+                .detail(ex.getDetail());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PersonExceptionNotFound.class)
-    public ResponseEntity<ErrorDTO> handlePersonNotFoundException(PersonExceptionNotFound ex) {
-        ErrorDTO errorResponse = new ErrorDTO()
+    public ResponseEntity<ErrorResponse> handlePersonNotFoundException(PersonExceptionNotFound ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
                 .code(ex.getCode())
-                .description(ex.getMessage());
+                .detail(ex.getDetail());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -50,26 +46,30 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(WebExchangeBindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Mono<Map<String, Object>> handleValidationException(WebExchangeBindException ex) {
-        Map<String, Object> response = new HashMap<>();
-        Map<String, String> fieldErrors = ex.getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage,
-                        (existing, replacement) -> existing
-                ));
-        response.put("code", HttpStatus.BAD_REQUEST.value());
-        response.put("description", HttpStatus.BAD_REQUEST.getReasonPhrase());
-        response.put("errors", fieldErrors);
+    public Mono<ErrorResponse> handleValidationException(WebExchangeBindException ex) {
+        List<ErrorDetail> details = ex.getFieldErrors().stream()
+                .map(error -> {
+                    ErrorDetail detail = new ErrorDetail();
+                    detail.setMessage(error.getField());
+                    detail.setBusinessMessage(error.getDefaultMessage());
+                    return detail;
+                })
+                .collect(Collectors.toList());
 
-        return Mono.just(response);
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        errorResponse.setDetail(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        errorResponse.setErrors(details);
+
+        return Mono.just(errorResponse);
     }
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO> handleGeneralException(Exception ex) {
-        ErrorDTO errorResponse = new ErrorDTO()
-                .code("500")
-                .description("An unexpected error occurred.");
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse()
+                .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
+                .detail(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

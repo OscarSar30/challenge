@@ -1,5 +1,6 @@
 package com.test.sp.customer.domain;
 
+import com.test.sp.customer.domain.enums.GenderEnum;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +18,8 @@ public class CustomerRequest {
     @NotNull
     @Size(min = 10, max = 255)
     String fullName;
-    String gender;
+    @NotNull
+    GenderEnum gender;
     @Min(0) @Max(120)
     Integer age;
     @Size(max = 255)

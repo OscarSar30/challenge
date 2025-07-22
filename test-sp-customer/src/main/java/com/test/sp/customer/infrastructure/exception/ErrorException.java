@@ -11,12 +11,12 @@ import org.springframework.validation.annotation.Validated;
 public class ErrorException extends Exception{
 
     final String code;
-    final String description;
+    final String detail;
 
-    public ErrorException(final String code, final String description) {
-        super(description);
+    public ErrorException(final String code, final String detail) {
+        super(detail);
         this.code = code;
-        this.description = description;
+        this.detail = detail;
     }
 
 }

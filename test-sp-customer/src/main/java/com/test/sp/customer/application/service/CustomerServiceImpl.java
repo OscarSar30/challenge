@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Void> putCustomer(@NotNull @NotBlank UUID customerId,
+    public Mono<Void> putCustomer(@NotNull UUID customerId,
                                   @NotNull @Valid CustomerRequest request) {
         log.info("|-> Starts process of updating customer by ID {}", customerId);
         return customerServiceAdapter.findByCustomerId(customerId)
@@ -83,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Void> deleteCustomer(@NotNull @NotBlank UUID customerId) {
+    public Mono<Void> deleteCustomer(@NotNull UUID customerId) {
         log.info("|-> Starts process of deleting customer by ID {}", customerId);
         return customerServiceAdapter.findByCustomerId(customerId)
                 .flatMap(customer -> {
@@ -98,7 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<GetCustomers> getCustomerById(@NotNull @NotBlank UUID customerId) {
+    public Mono<GetCustomers> getCustomerById(@NotNull UUID customerId) {
         log.info("|-> Starts process of searching customer by ID {}", customerId);
         return customerServiceAdapter.findByCustomerId(customerId)
                 .flatMap(customer -> {
