@@ -54,7 +54,7 @@ public class MovementServiceImpl implements MovementService {
     }
 
     private Mono<MovementResponse> handleAccount(AccountEntity accountEntity,
-                                                     MovementRequest request) {
+                                                 MovementRequest request) {
         if (accountEntity.getInitialBalance() < 0) {
             log.error("|-> Account ID {} with insufficient balance.", request.getAccountId());
             return Mono.error(new AccountIdNotFoundException());
@@ -65,8 +65,8 @@ public class MovementServiceImpl implements MovementService {
     }
 
     private Mono<MovementResponse> processMovement(AccountEntity accountEntity,
-                                                       MovementEntity movementEntity,
-                                                       MovementRequest request) {
+                                                   MovementEntity movementEntity,
+                                                   MovementRequest request) {
         log.info("|-> Last movement obtained from DB. Initial process movement {}", request.getMovementType());
         return switch (request.getMovementType()) {
             case DEPOSITO -> handleDeposit(accountEntity, movementEntity, request);
@@ -84,7 +84,9 @@ public class MovementServiceImpl implements MovementService {
         return saveMovement(request);
     }
 
-    private Mono<MovementResponse> handleWithdrawal(AccountEntity accountEntity, MovementEntity movementEntity, MovementRequest request) {
+    private Mono<MovementResponse> handleWithdrawal(AccountEntity accountEntity,
+                                                    MovementEntity movementEntity,
+                                                    MovementRequest request) {
         double currentBalance = (movementEntity.getBalance() == null) ? accountEntity.getInitialBalance() : movementEntity.getBalance();
         if (currentBalance < request.getAmount()) {
             log.error("|-> Insufficient balance for RETIRO");

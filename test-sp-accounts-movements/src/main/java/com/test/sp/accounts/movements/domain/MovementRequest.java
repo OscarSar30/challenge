@@ -1,6 +1,7 @@
 package com.test.sp.accounts.movements.domain;
 
 import com.test.sp.accounts.movements.domain.enums.MovementTypeEnum;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ public class MovementRequest {
     @NotNull
     MovementTypeEnum movementType;
     @NotNull
+    @DecimalMin("0.01")
     Double amount;
     Double balance;
     @NotNull

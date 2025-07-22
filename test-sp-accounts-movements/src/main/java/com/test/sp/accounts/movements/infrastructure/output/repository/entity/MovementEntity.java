@@ -5,7 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Table("movements")
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class MovementEntity {
     @Id
     UUID movementId;
-    LocalDate dateMovement;
+    LocalDateTime dateMovement;
     String movementType;
     Double balance;
     Double amount;

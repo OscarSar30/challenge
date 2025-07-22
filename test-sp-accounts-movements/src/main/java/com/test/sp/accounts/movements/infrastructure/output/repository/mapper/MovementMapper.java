@@ -4,10 +4,7 @@ import com.test.sp.accounts.movements.domain.GetMovements;
 import com.test.sp.accounts.movements.domain.MovementRequest;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.AccountEntity;
 import com.test.sp.accounts.movements.infrastructure.output.repository.entity.MovementEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValueCheckStrategy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 
 @Mapper(componentModel = "spring",

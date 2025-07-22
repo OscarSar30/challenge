@@ -15,7 +15,8 @@ public interface MovementRepository extends ReactiveCrudRepository<MovementEntit
 
     @Query("SELECT * FROM MOVEMENTS M " +
             "WHERE M.ACCOUNT_ID = :accountId " +
-            "ORDER BY M.MOVEMENT_ID DESC LIMIT 1")
+            "ORDER BY M.DATE_MOVEMENT DESC, " +
+            "M.MOVEMENT_ID DESC LIMIT 1")
     Mono<MovementEntity> findByAccountId(UUID accountId);
 
     @Query("SELECT MV.DATE_MOVEMENT, PR.FULL_NAME, ACC.ACCOUNT_NUMBER, ACC.ACCOUNT_TYPE, " +
@@ -27,7 +28,7 @@ public interface MovementRepository extends ReactiveCrudRepository<MovementEntit
             "WHERE PR.IDENTIFICATION = :identification " +
             "AND MV.DATE_MOVEMENT::DATE BETWEEN TO_DATE(:startDate, 'DD/MM/YYYY') " +
             "AND TO_DATE(:endDate, 'DD/MM/YYYY')" +
-            "ORDER BY MV.DATE_MOVEMENT DESC")
+            "ORDER BY MV.DATE_MOVEMENT ASC")
     Flux<StatementAccount> findStatementAccount(String identification,
                                                 String startDate,
                                                 String endDate);

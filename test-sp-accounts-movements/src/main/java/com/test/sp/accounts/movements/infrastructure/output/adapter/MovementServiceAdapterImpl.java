@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Service
@@ -39,7 +40,11 @@ public class MovementServiceAdapterImpl implements MovementServiceAdapter {
     @Override
     public Mono<MovementEntity> saveMovement(MovementRequest request) {
         log.info("|-> Initiate save movement adapter.");
-        return movementRepository.save(movementMapper.requestToMovementEntity(request))
+        MovementEntity entity = movementMapper.requestToMovementEntity(request);
+        if (entity.getDateMovement() == null && request.getDateMovement() != null) {
+            entity.setDateMovement(request.getDateMovement().atTime(LocalTime.now()));
+        }
+        return movementRepository.save(entity)
                 .doOnSuccess(customersEntity -> log.info(
                         "|-> Adapter:: Creation movement successfully."))
                 .doOnError(error ->
