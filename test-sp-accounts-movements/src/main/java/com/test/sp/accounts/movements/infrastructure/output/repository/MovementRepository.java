@@ -15,8 +15,8 @@ public interface MovementRepository extends ReactiveCrudRepository<MovementEntit
 
     @Query("SELECT * FROM MOVEMENTS M " +
             "WHERE M.ACCOUNT_ID = :accountId " +
-            "ORDER BY M.DATE_MOVEMENT DESC, " +
-            "M.MOVEMENT_ID DESC LIMIT 1")
+            "ORDER BY M.DATE_MOVEMENT DESC " +
+            "LIMIT 1")
     Mono<MovementEntity> findByAccountId(UUID accountId);
 
     @Query("SELECT MV.DATE_MOVEMENT, PR.FULL_NAME, ACC.ACCOUNT_NUMBER, ACC.ACCOUNT_TYPE, " +
