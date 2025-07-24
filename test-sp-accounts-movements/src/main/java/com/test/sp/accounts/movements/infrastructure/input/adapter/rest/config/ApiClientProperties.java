@@ -30,5 +30,7 @@ public class ApiClientProperties {
     public static class HttpApiClient {
         @NotBlank
         private String url;
+        @NotBlank
+        private String basePath;
     }
 }

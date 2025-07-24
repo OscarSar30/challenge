@@ -24,4 +24,7 @@ services:
     api:
       client-customer:
         url: http://localhost:8093
+        base-path: /customers/
 
+jwt:
+  secret: k4z7QZ8tNxU2ZVmAOwZf9CsbJmhGgO2ZWrh+LpONuuI=

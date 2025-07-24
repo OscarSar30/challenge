@@ -19,3 +19,5 @@ logging:
           r2dbc: DEBUG
         r2dbc: DEBUG
 
+jwt:
+  secret: k4z7QZ8tNxU2ZVmAOwZf9CsbJmhGgO2ZWrh+LpONuuI=

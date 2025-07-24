@@ -8,6 +8,8 @@ info:
 servers:
   - url: http://localhost:8080
     description: Generated server url
+security:
+  - bearerAuth: []
 paths:
   /customers:
     get:
@@ -189,6 +191,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     PostCustomerRequest:
       required:
@@ -303,7 +310,6 @@ components:
           type: string
         businessMessage:
           type: string
-
     ErrorResponse:
       type: object
       properties:
