@@ -7,7 +7,7 @@ plugins {
 	id 'org.openapi.generator' version '7.5.0'
 }
 
-group = 'com.test'
+group = 'com.test.sp.accounts.movements'
 version = '1.0.0'
 
 java {
@@ -46,13 +46,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-	// Jakarta EE dependencies
-	implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0' // or compatible version
-
-	// Swagger/OpenAPI
-	implementation 'io.swagger.core.v3:swagger-annotations:2.2.28' // Ensure this matches your version
-	implementation 'io.swagger.core.v3:swagger-models:2.2.28' // Needed for OpenAPI models
 
 }
 
